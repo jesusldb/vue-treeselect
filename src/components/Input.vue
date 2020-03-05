@@ -18,6 +18,7 @@
 
     data: () => ({
       inputWidth: MIN_INPUT_WIDTH,
+      timeout: null,
       value: '',
     }),
 
@@ -100,16 +101,22 @@
       },
 
       onInput(evt) {
+        let self = this
+        const { instance } = this
         const { value } = evt.target
 
-        this.value = value
+        self.value = value
+        instance.trigger.hasInput = value.length > 0
 
-        if (value) {
-          this.debouncedCallback()
-        } else {
-          this.debouncedCallback.cancel()
-          this.updateSearchQuery()
-        }
+        clearTimeout(self.timeout)
+        self.timeout = setTimeout(function () {
+          if (value) {
+            self.debouncedCallback()
+          } else {
+            self.debouncedCallback.cancel()
+            self.updateSearchQuery()
+          }
+        }, instance.inputDelay)
       },
 
       // 用 keyUp 事件存在一个问题，删除输入框最后一个字符也会导致取消选中最后一项

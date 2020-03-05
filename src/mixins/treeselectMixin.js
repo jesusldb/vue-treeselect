@@ -386,6 +386,14 @@ export default {
     },
 
     /**
+     * Sets `inputDelay` value for input processing (in miliseconds).
+     */
+    inputDelay: {
+      type: Number,
+      default: 500,
+    },
+
+    /**
      * Set `true` to allow selecting multiple options (a.k.a., multi-select mode).
      */
     multiple: {
@@ -645,6 +653,7 @@ export default {
         isFocused: false,
         // User entered search query - value of the input.
         searchQuery: '',
+        hasInput: false
       },
 
       menu: {
